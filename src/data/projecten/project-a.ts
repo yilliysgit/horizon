@@ -2,6 +2,7 @@
 export const projectAData = {
   id: 'villa-sunset',
   // Hero data
+  category: 'complete-renovaties',
   title: "Villa Sunset — Moderne Totaalbouw",
   subtitle: "Van tekening naar <strong>duurzame droomwoning</strong> in 8 maanden.",
   client: "Familie van Bergen",

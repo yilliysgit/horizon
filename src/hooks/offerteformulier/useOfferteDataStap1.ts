@@ -1,7 +1,7 @@
 // hooks/offerteformulier/useOfferteDataStap1.ts
 
 import { useState, useCallback, useMemo } from 'react';
-import { OfferteStap1 } from '@/types/forms/offerteFormulier/offerteStap1.type';
+import { OfferteStap1 } from '@/types/forms/offerteFormulier/OfferteStap1.type';
 
 // Specifieke error type voor betere type safety
 type OfferteStap1Errors = Partial<Record<keyof OfferteStap1, string>>;

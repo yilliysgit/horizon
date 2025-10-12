@@ -1,16 +1,18 @@
 import HomeHeroAnimated from "./components/hero/HomeHeroAnimated";
 import WhyChooseUs from "./components/sections/home/WhyChooseUs";
 import BeautifulFeatureSection from "./components/sections/featured/Featured";
-import CustomerLogoSlider from "./components/common/customerSlider/CustomerSlider";
-import ReviewsCard from "./components/ui/Reviews";
+import CustomerCategoriesSlider from "./components/common/CustomerCategoriesSlider/CustomerCategoriesSlider";
+import GoogleReviewsHorizon from "./components/sections/reviews/Reviews";
 import Footer from "./components/layout/footer/Footer";
 import Pillars, { Pillar } from "@/app/components/pillarSection/Pillartwo";
 import { ShieldCheck, Hammer, Users2, Clock3 } from "lucide-react";
 
-import TOTAALBOUW_FAQ from "@/data/faqs/category/totaalBouw.faq";
-import { FaqSection } from "@/app/components/faqs/Faqs";
 import { HeroNew } from "./components/hero/HeroNew";
-import HorizonServicesCardSlider from "./components/sections/home/HorizonServicesCardSlider";
+import HorizonCardServicesSlider from "./components/sections/home/HorizonServicesCardSlider";
+import FAQSection from "./components/faqs/Faqs";
+import TOTAALBOUW_FAQ from "@/data/faqs/category/totaalBouw.faq";
+
+
 
 const pillars: Pillar[] = [
   { icon: <ShieldCheck />, title: "Kwaliteit met garantie", description: "Ambacht + moderne techniek. Oplevering mét garantie.", href: "/kwaliteit", accent: "blue" },
@@ -66,19 +68,20 @@ export default function Home() {
       variant="blue"
     />
 <WhyChooseUs />
-
-<HorizonServicesCardSlider />
+<HorizonCardServicesSlider />
 <BeautifulFeatureSection />
-<CustomerLogoSlider />
-<ReviewsCard testimonials={testimonials}/>
+<CustomerCategoriesSlider />
+<GoogleReviewsHorizon />
 
-<FaqSection
-  id="faq-totaalbouw"
-  title="Veelgestelde vragen over totaalbouw"
-  intro="Transparant over planning, budget en kwaliteit."
-  items={TOTAALBOUW_FAQ}
-  includeJsonLd
-/>
+<FAQSection
+        items={TOTAALBOUW_FAQ}
+        eyebrow="FAQ Totaalbouw"
+        title='Veelgestelde vragen over totaalbouw'
+        intro="Alles over planning, kosten, kwaliteit en nazorg."
+        telHref="tel:0850000000"
+        contactHref="/contact"
+        singleOpen
+      />
 
 <Footer />
 </>

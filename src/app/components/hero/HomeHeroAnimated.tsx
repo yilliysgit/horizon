@@ -18,16 +18,16 @@ export type HeroHeaderProps = {
 
 const palettes = {
   blue: {
-    gradient: "bg-gradient-to-b from-[#0B1C4F] via-[#0E2F92] to-[#0B1C4F]",
+    gradient: "bg-gradient-to-br from-[#0066cc] via-[#1a73e8] to-[#3182ce]",
     text: "text-white",
-    accent: "bg-amber-400",
-    ring: "ring-amber-300/40",
+    accent: "bg-[#f59e0b]", // GEEL - goede contrast met blauw
+    ring: "ring-blue-300/40",
   },
   midnight: {
-    gradient: "bg-gradient-to-b from-[#0A0B12] via-[#121426] to-[#0A0B12]",
-    text: "text-slate-100",
-    accent: "bg-amber-400",
-    ring: "ring-amber-300/30",
+    gradient: "bg-gradient-to-br from-[#004499] via-[#0066cc] to-[#1a73e8]",
+    text: "text-white",
+    accent: "bg-[#f59e0b]",
+    ring: "ring-blue-300/30",
   },
 } as const;
 
@@ -56,7 +56,7 @@ function FloatingServiceBadge({
 
   return (
     <motion.div
-      className="absolute"
+      className="absolute hidden lg:block" // Verberg op mobile voor betere performance
       style={{
         top: position.top,
         left: position.left,
@@ -68,7 +68,7 @@ function FloatingServiceBadge({
         y: 20
       }}
       animate={{
-        opacity: [0, 0.7, 0.9, 0.7],
+        opacity: [0, 0.6, 0.8, 0.6],
         scale: [0.8, 1, 1.05, 1],
         x: [-20, 10, -10, 15],
         y: [20, -10, 15, -20],
@@ -92,26 +92,28 @@ function FloatingServiceBadge({
         <span className="text-white text-xs font-medium whitespace-nowrap">
           {services[currentServiceIndex]}
         </span>
-        <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-amber-400 rounded-full opacity-60"></div>
+        {/* ORANJE accent ipv geel */}
+        <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-[#ff6b35] rounded-full opacity-70"></div>
       </motion.div>
     </motion.div>
   );
 }
 
 function FloatingServices() {
+  // SEO: LSI keywords voor aannemer Amsterdam
   const services = [
-    "Totaalrenovaties",
-    "Ruwbouw", 
-    "Dakwerken",
+    "Totaalrenovaties Amsterdam",
+    "Ruwbouw & Nieuwbouw", 
+    "Dakwerken & Dakisolatie",
     "Afbouw & Afwerking",
-    "Interieurbouw",
-    "Installaties",
-    "Complete Renovaties",
+    "Interieurbouw op Maat",
+    "Installaties & Leidingwerk",
+    "Complete Woningrenovatie",
     "Op- en Aanbouwen",
-    "Verbouwingen",
-    "Keukens",
-    "Badkamers",
-    "Schilderwerk"
+    "Verbouwingen Amsterdam",
+    "Keukenrenovatie",
+    "Badkamerrenovatie",
+    "Schilderwerk Binnen & Buiten"
   ];
 
   const positions = [
@@ -143,6 +145,78 @@ function FloatingServices() {
   );
 }
 
+// Schema.org JSON-LD voor SEO
+function OrganizationSchema() {
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "@id": "https://horizontotaalbouw.nl/#organization",
+    "name": "Horizon Totaalbouw",
+    "description": "Betrouwbare aannemer in Amsterdam voor totaalrenovaties, verbouwingen, op- en aanbouwen. 25+ jaar ervaring, 500+ projecten, 9.8 klantwaardering.",
+    "url": "https://horizontotaalbouw.nl",
+    "logo": "https://horizontotaalbouw.nl/logo.png",
+    "image": "https://horizontotaalbouw.nl/og-image.jpg",
+    "telephone": "+31-20-XXX-XXXX",
+    "email": "info@horizontotaalbouw.nl",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Straatnaam 123",
+      "addressLocality": "Amsterdam",
+      "addressRegion": "Noord-Holland",
+      "postalCode": "1012 AB",
+      "addressCountry": "NL"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": "52.3676",
+      "longitude": "4.9041"
+    },
+    "areaServed": {
+      "@type": "GeoCircle",
+      "geoMidpoint": {
+        "@type": "GeoCoordinates",
+        "latitude": "52.3676",
+        "longitude": "4.9041"
+      },
+      "geoRadius": "50000"
+    },
+    "priceRange": "€€-€€€",
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "9.8",
+      "reviewCount": "500",
+      "bestRating": "10",
+      "worstRating": "1"
+    },
+    "foundingDate": "1999",
+    "slogan": "Bouw met vertrouwen - Persoonlijke begeleiding bij elk project",
+    "knowsAbout": [
+      "Totaalrenovaties",
+      "Verbouwingen",
+      "Op- en aanbouwen",
+      "Nieuwbouw",
+      "Ruwbouw",
+      "Afbouw",
+      "Dakwerken",
+      "Interieurbouw",
+      "Keukenrenovatie",
+      "Badkamerrenovatie"
+    ],
+    "sameAs": [
+      "https://www.facebook.com/horizontotaalbouw",
+      "https://www.instagram.com/horizontotaalbouw",
+      "https://www.linkedin.com/company/horizontotaalbouw"
+    ]
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  );
+}
+
 export default function HomeHeroAnimated({
   eyebrow,
   title,
@@ -156,165 +230,207 @@ export default function HomeHeroAnimated({
   const theme = palettes[variant];
 
   return (
-    <section
-      className={cx(
-        "relative isolate overflow-hidden",
-        theme.gradient,
-        theme.text,
-        "pt-28 pb-16 md:pt-36 md:pb-24",
-        className
-      )}
-      style={{ minHeight: "calc(100svh - var(--header-h, 80px))" }}
-      aria-label="Introductiesectie"
-    >
-      {/* Bouwfoto achtergrond */}
-      <div className="absolute inset-0 -z-20">
-        <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{
-            backgroundImage: `url('https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=1920&q=80&auto=format&fit=crop')`,
-          }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0B1C4F]/95 via-[#0E2F92]/90 to-[#0B1C4F]/95" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0B1C4F]/80 via-transparent to-[#0B1C4F]/60" />
-      </div>
-
-      {/* Grid overlay */}
-      <svg
-        aria-hidden
-        className="pointer-events-none absolute inset-0 -z-10 h-full w-full opacity-[0.12]"
+    <>
+      {/* Schema.org markup voor SEO */}
+      <OrganizationSchema />
+      
+      <section
+        className={cx(
+          "relative isolate overflow-hidden",
+          theme.gradient,
+          theme.text,
+          "pt-16 pb-12 md:pt-20 md:pb-16",
+          className
+        )}
+        style={{ minHeight: "calc(100vh - 72px)" }}
+        aria-label="Horizon Totaalbouw - Betrouwbare aannemer in Amsterdam"
       >
-        <defs>
-          <pattern id="grid" width="36" height="36" patternUnits="userSpaceOnUse">
-            <path d="M 36 0 L 0 0 0 36" fill="none" stroke="white" strokeOpacity="0.25" />
-          </pattern>
-        </defs>
-        <rect width="100%" height="100%" fill="url(#grid)" />
-      </svg>
-
-      {/* Zachte glows */}
-      <div className="pointer-events-none absolute -left-40 -top-40 -z-10 h-80 w-80 rounded-full bg-cyan-400/15 blur-3xl" />
-      <div className="pointer-events-none absolute -right-32 top-1/3 -z-10 h-72 w-72 rounded-full bg-amber-400/15 blur-3xl" />
-
-      <div className="container mx-auto max-w-7xl px-6">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Content Links */}
-          <div>
-            {/* Eyebrow */}
-            {eyebrow && (
-              <div className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-white/70">
-                {eyebrow}
-              </div>
-            )}
-
-            {/* Title */}
-           <motion.h1
-  initial={{ opacity: 0, y: 16 }}
-  animate={{ opacity: 1, y: 0 }}
-  transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-  className="font-display text-white mb-8
-             text-[clamp(2.25rem,5vw,4.5rem)] leading-[1.05]"
->
-  {title}
-</motion.h1>
-
-            {/* Accent underline */}
-            <motion.div
-              initial={{ scaleX: 0 }}
-              animate={{ scaleX: 1 }}
-              transition={{ duration: 0.7, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-              className={cx("h-2 w-36 origin-left rounded-full mb-12", theme.accent)}
-            />
-
-            {/* Subtitle */}
-{subtitle && (
-  <motion.p
-    initial={{ opacity: 0, y: 8 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.6, delay: 0.3 }}
-    className="mb-12 max-w-prose text-white/90 leading-relaxed
-               text-lg md:text-xl font-archivo font-black"
-  >
-    {subtitle}
-  </motion.p>
-)}
-
-            {/* CTA Buttons */}
-            {(ctaPrimary || ctaSecondary) && (
-              <motion.div
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.4 }}
-                className="flex flex-col sm:flex-row gap-4"
-              >
-                {ctaPrimary && (
-                  <a
-                    href={ctaPrimary.href}
-                    className="inline-flex items-center gap-2 bg-white text-slate-900 px-6 py-4 rounded-2xl font-medium hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1"
-                  >
-                    {ctaPrimary.label}
-                    <ArrowRight className="w-5 h-5" />
-                  </a>
-                )}
-                {ctaSecondary && (
-                  <a
-                    href={ctaSecondary.href}
-                    className="inline-flex items-center gap-2 border-2 border-white/40 text-white px-6 py-4 rounded-2xl font-semibold backdrop-blur-sm hover:bg-white/20 hover:border-white/60 transition-all duration-300"
-                    style={{ color: 'white' }}
-                  >
-                    {ctaSecondary.label}
-                  </a>
-                )}
-              </motion.div>
-            )}
-          </div>
-
-          {/* Stats Grid Rechts */}
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.5 }}
-            className="relative"
-          >
-            {/* Stats kaartjes */}
-            {stats && stats.length > 0 && (
-              <div className="grid grid-cols-2 gap-4 mb-6">
-                {stats.map((s, i) => (
-                  <motion.div
-                    key={i}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: 0.6 + 0.1 * i }}
-                    className="rounded-2xl border border-white/15 bg-white/8 p-5 backdrop-blur-md hover:bg-white/12 transition-colors duration-300"
-                  >
-                    <div className="flex items-baseline gap-1">
-                      <div className="text-3xl font-semibold">{s.value}</div>
-                      {s.suffix && (
-                        <div className="text-xl text-white/70">{s.suffix}</div>
-                      )}
-                    </div>
-                    <div className="text-sm text-white/70 mt-1">{s.label}</div>
-                  </motion.div>
-                ))}
-              </div>
-            )}
-
-            {/* Live Project Badge */}
-            <div className="inline-flex items-center gap-2 bg-green-500/20 border border-green-400/30 rounded-full px-4 py-2 text-sm backdrop-blur-sm mb-4">
-              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-              <span className="text-green-300 font-medium">Live Project</span>
-            </div>
-            <p className="text-white/80 text-lg">
-              <span className="font-semibold">Bouw met vertrouwen</span>
-              <br />
-              Persoonlijke begeleiding en transparante communicatie bij elk project.
-            </p>
-          </motion.div>
+        {/* DONKERDER overlay - betere leesbaarheid */}
+        <div className="absolute inset-0 -z-20">
+          <div
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+            style={{ backgroundImage: 'url("/images/serkantest.jpg")' }}
+          />
+          {/* Donkerder: 80% opacity voor betere contrast */}
+          <div className="absolute inset-0 bg-gradient-to-b from-[#0066cc]/80 via-[#1a73e8]/75 to-[#0066cc]/80" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#0066cc]/60 via-transparent to-[#0066cc]/50" />
         </div>
-      </div>
 
-      {/* Floating Diensten */}
-      <FloatingServices />
-    </section>
+        {/* Grid overlay - zachter */}
+        <svg
+          aria-hidden
+          className="pointer-events-none absolute inset-0 -z-10 h-full w-full opacity-[0.08]"
+        >
+          <defs>
+            <pattern id="grid" width="36" height="36" patternUnits="userSpaceOnUse">
+              <path d="M 36 0 L 0 0 0 36" fill="none" stroke="white" strokeOpacity="0.2" />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#grid)" />
+        </svg>
+
+        {/* Zachte glows - geel accent */}
+        <div className="pointer-events-none absolute -left-40 -top-40 -z-10 h-96 w-96 rounded-full bg-white/10 blur-3xl" />
+        <div className="pointer-events-none absolute -right-32 top-1/3 -z-10 h-80 w-80 rounded-full bg-[#f59e0b]/10 blur-3xl" />
+
+        <div className="container mx-auto max-w-7xl px-6">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            {/* Content Links */}
+            <div className="order-2 lg:order-1">
+              {/* Eyebrow - SEO: Lokale targeting */}
+              {eyebrow && (
+                <motion.div 
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4 }}
+                  className="mb-4 inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-2"
+                >
+                  <div className="w-2 h-2 bg-[#f59e0b] rounded-full animate-pulse"></div>
+                  <span className="text-sm font-medium tracking-wide text-white/90">
+                    {eyebrow}
+                  </span>
+                </motion.div>
+              )}
+
+              {/* H1 - SEO OPTIMIZED - KLEINER */}
+              <motion.h1
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                className="font-display text-white mb-5
+                          text-[clamp(1.75rem,4vw,2.75rem)] leading-[1.15]
+                          font-semibold tracking-tight" // VEEL KLEINER
+              >
+                {title}
+              </motion.h1>
+
+              {/* Accent underline - GEEL */}
+              <motion.div
+                initial={{ scaleX: 0 }}
+                animate={{ scaleX: 1 }}
+                transition={{ duration: 0.7, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+                className="h-1 w-24 origin-left rounded-full mb-6 bg-[#f59e0b]"
+              />
+
+              {/* Subtitle - SEO: Value proposition met LSI keywords */}
+              {subtitle && (
+                <motion.p
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.3 }}
+                  className="mb-8 max-w-xl text-sm md:text-base leading-relaxed text-white/90 font-normal" // Smaller text, smaller margin
+                >
+                  {subtitle}
+                </motion.p>
+              )}
+
+              {/* CTA Buttons - Accessibility verbeterd */}
+              {(ctaPrimary || ctaSecondary) && (
+                <motion.div
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.4 }}
+                  className="flex flex-col sm:flex-row gap-4"
+                >
+                  {ctaPrimary && (
+                    <a
+                      href={ctaPrimary.href}
+                      className="inline-flex items-center justify-center gap-2 
+                                bg-white text-[#0066cc] 
+                                px-5 py-3 rounded-xl 
+                                font-medium text-sm md:text-base
+                                hover:shadow-lg hover:shadow-white/25
+                                transition-all duration-300 
+                                transform hover:-translate-y-0.5
+                                focus:outline-none focus:ring-2 focus:ring-white/50 focus:ring-offset-2 focus:ring-offset-transparent"
+                      aria-label={`${ctaPrimary.label} - Bekijk onze diensten`}
+                    >
+                      {ctaPrimary.label}
+                      <ArrowRight className="w-4 h-4 md:w-5 md:h-5" aria-hidden="true" />
+                    </a>
+                  )}
+                  {ctaSecondary && (
+                    <a
+                      href={ctaSecondary.href}
+                      className="inline-flex items-center justify-center gap-2 
+                                border-2 border-white/30 text-white 
+                                px-5 py-3 rounded-xl 
+                                font-medium text-sm md:text-base
+                                backdrop-blur-sm 
+                                hover:bg-white/15 hover:border-white/50 
+                                transition-all duration-300
+                                focus:outline-none focus:ring-2 focus:ring-white/50"
+                      aria-label={`${ctaSecondary.label} - Zie onze gerealiseerde projecten`}
+                    >
+                      {ctaSecondary.label}
+                    </a>
+                  )}
+                </motion.div>
+              )}
+            </div>
+
+            {/* Stats Grid Rechts */}
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.5 }}
+              className="relative order-1 lg:order-2"
+            >
+              {/* Stats kaartjes - Schema markup voor rich snippets */}
+              {stats && stats.length > 0 && (
+                <div className="grid grid-cols-2 gap-3 md:gap-4 mb-4 md:mb-6" role="list" aria-label="Bedrijfsstatistieken">
+                  {stats.map((s, i) => (
+                    <motion.div
+                      key={i}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.5, delay: 0.6 + 0.1 * i }}
+                      className="rounded-xl border border-white/20 bg-white/10 p-4 md:p-5 
+                                backdrop-blur-md hover:bg-white/15 
+                                transition-colors duration-300
+                                focus-within:ring-2 focus-within:ring-white/30"
+                      role="listitem"
+                    >
+                      <div className="flex items-baseline gap-1">
+                        <div className="text-2xl md:text-3xl font-semibold" aria-label={`${s.value}${s.suffix || ''}`}>
+                          {s.value}
+                        </div>
+                        {s.suffix && (
+                          <div className="text-lg md:text-xl text-white/70">{s.suffix}</div>
+                        )}
+                      </div>
+                      <div className="text-xs md:text-sm text-white/80 mt-1 font-normal">{s.label}</div>
+                    </motion.div>
+                  ))}
+                </div>
+              )}
+
+              {/* Trust Badge - SEO: E-A-T signals */}
+              <div className="space-y-3 md:space-y-4">
+                <div className="inline-flex items-center gap-2 
+                              bg-green-500/20 border border-green-400/30 
+                              rounded-full px-3 md:px-4 py-1.5 md:py-2 text-xs md:text-sm backdrop-blur-sm">
+                  <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" aria-hidden="true"></div>
+                  <span className="text-green-300 font-medium">Live Projects in Amsterdam</span>
+                </div>
+                
+                <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-4 md:p-5">
+                  <h2 className="text-white font-semibold text-base md:text-lg mb-2">
+                    Bouw met vertrouwen
+                  </h2>
+                  <p className="text-white/85 text-sm md:text-base leading-relaxed font-normal">
+                    Persoonlijke begeleiding en transparante communicatie bij elk project. 
+                    Van eerste schets tot sleuteloverdracht.
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+
+        {/* Floating Diensten - Hidden on mobile for performance */}
+        <FloatingServices />
+      </section>
+    </>
   );
 }

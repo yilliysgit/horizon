@@ -1,7 +1,7 @@
 // /data/faqs/category/afwerking.faq.ts
 import type { FAQItem } from "@/types/faqs/faq.types";
 
-const AFWERKING_FAQ: FAQItem[] = [
+const AFBOUW_FAQ: FAQItem[] = [
   {
     id: "wat-is-afwerking",
     question: "Wat verstaan jullie onder afwerking in de bouw?",
@@ -110,4 +110,4 @@ const AFWERKING_FAQ: FAQItem[] = [
   },
 ];
 
-export default AFWERKING_FAQ;
+export default AFBOUW_FAQ;

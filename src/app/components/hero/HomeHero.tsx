@@ -15,18 +15,18 @@ export type HeroHeaderProps = {
 
 const palettes = {
   blue: {
-    gradient: "bg-gradient-to-br from-[#4A90E2] via-[#357ABD] to-[#2E5B8A]",
-    text: "text-white",
-    accent: "bg-[#4A90E2]",
-    ring: "ring-blue-300/40",
-  },
-  midnight: {
-    gradient: "bg-gray-50",
-    text: "text-gray-900",
-    accent: "bg-[#4A90E2]",
-    ring: "ring-blue-300/30",
-  },
-} as const;
+     gradient: "bg-gradient-to-br from-[#0B2447] via-[#19376D] to-[#0B5ED7]",
+     text: "text-white",
+     accent: "bg-[#4A90E2]",
+     ring: "ring-blue-300/40",
+   },
+   midnight: {
+     gradient: "bg-gradient-to-br from-[#0B1220] via-[#0E1A2A] to-[#0B3252]",
+     text: "text-white",
+     accent: "bg-[#4A90E2]",
+     ring: "ring-blue-300/30",
+   },
+ } as const;
 
 function cx(...classes: Array<string | false | null | undefined>) {
   return classes.filter(Boolean).join(" ");

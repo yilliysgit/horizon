@@ -1,406 +1,229 @@
-"use client";
-import React, { useState, useEffect } from 'react';
-import { motion, useInView } from 'framer-motion';
-import { 
-  Building2, 
-  Wrench, 
-  Leaf, 
-  Users, 
-  CheckCircle, 
-  ArrowRight,
-  Award,
-  Clock
-} from 'lucide-react';
+import React from "react";
+import { motion, useReducedMotion } from "framer-motion";
+import { ArrowRight, LucideIcon } from "lucide-react";
+import { Building2, Wrench, Zap, Users } from "lucide-react";
 
-const HORIZON_COLORS = {
-  navy800: "#00296b",
-  navy700: "#003f88", 
-  navy600: "#00509d",
-  gold500: "#fdc500",
-  gold400: "#ffd500",
-  white: "#ffffff",
-  gray50: "#f9fafb",
-  gray100: "#f3f4f6",
-  gray200: "#e5e7eb",
-  gray600: "#4b5563",
+const COLORS = {
+  blue700: "#0066cc",
+  blue600: "#1a73e8",
+  orange600: "#f59e0b",
+  orange500: "#fbbf24",
   gray900: "#111827",
-  ink: "#333333"
+  gray600: "#4b5563",
+  gray200: "#e5e7eb",
+  white: "#ffffff",
 };
 
-interface StatItem {
-  number: string;
-  label: string;
-  icon: React.ReactNode;
-}
+export type ExpertiseItem = {
+  icon: LucideIcon;
+  title: string;
+  description: string;
+  color?: string;
+};
 
-const BouwIntroSectie: React.FC = () => {
-  const [hoveredStat, setHoveredStat] = useState<number | null>(null);
-  const [hoveredExpertise, setHoveredExpertise] = useState<number | null>(null);
+export type BouwIntroSectieProps = {
+  eyebrow?: string;
+  title: React.ReactNode;
+  paragraphs?: string[];
+  leftContent?: React.ReactNode;
+  rightContent?: React.ReactNode;
+  expertiseItems?: ExpertiseItem[];
+  cta?: { 
+    label: string; 
+    href?: string; 
+    onClick?: () => void;
+  };
+  contactBadge?: {
+    label: string;
+    phone: string;
+    show?: boolean;
+  };
+  className?: string;
+};
 
-  const expertiseItems = [
-    {
-      title: 'Complete nieuwbouw en uitbreidingen',
-      icon: <Building2 className="w-5 h-5" />,
-      description: 'Van fundering tot dak, wij realiseren uw droomhuis'
-    },
-    {
-      title: 'Renovaties en verbouwingen',
-      icon: <Wrench className="w-5 h-5" />,
-      description: 'Transformatie van bestaande ruimtes naar moderne woonoplossingen'
-    },
-    {
-      title: 'Duurzame en energiezuinige oplossingen',
-      icon: <Leaf className="w-5 h-5" />,
-      description: 'Milieuvriendelijk bouwen voor de toekomst'
-    },
-    {
-      title: 'Persoonlijk advies en begeleiding',
-      icon: <Users className="w-5 h-5" />,
-      description: 'Van eerste gesprek tot sleuteloverdracht'
-    }
-  ];
-
-  const stats: StatItem[] = [
-    { 
-      number: '20+', 
-      label: 'Jaar ervaring',
-      icon: <Award className="w-6 h-6" />
-    },
-    { 
-      number: '250+', 
-      label: 'Projecten',
-      icon: <Building2 className="w-6 h-6" />
-    }
-  ];
+export default function BouwIntroSectie({
+  eyebrow,
+  title,
+  paragraphs = [],
+  leftContent,
+  rightContent,
+  expertiseItems,
+  cta,
+  contactBadge,
+  className = "",
+}: BouwIntroSectieProps) {
+  const reduce = useReducedMotion();
 
   return (
-    <section className="py-20 px-6 relative overflow-hidden">
-      {/* Clean background */}
-      <div 
-        className="absolute inset-0 -z-10"
-        style={{
-          background: `linear-gradient(135deg, ${HORIZON_COLORS.gray50} 0%, ${HORIZON_COLORS.white} 50%, ${HORIZON_COLORS.gray50} 100%)`
-        }}
-      />
+    <section 
+      className={`relative overflow-hidden bg-gradient-to-b from-gray-50 to-white py-20 md:py-32 px-6 ${className}`}
+      aria-labelledby="bouw-intro-title"
+    >
+      {/* Decoratieve achtergrond elementen */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-100 rounded-full opacity-20 blur-3xl" />
+        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-orange-100 rounded-full opacity-20 blur-3xl" />
+      </div>
 
-      {/* Subtle pattern */}
-      <div 
-        className="absolute inset-0 opacity-5 -z-10"
-        style={{
-          backgroundImage: `radial-gradient(circle at 25% 25%, ${HORIZON_COLORS.gold500} 1px, transparent 1px),
-                           radial-gradient(circle at 75% 75%, ${HORIZON_COLORS.navy600} 1px, transparent 1px)`,
-          backgroundSize: '60px 60px, 80px 80px'
-        }}
-      />
-
-      {/* Floating decorative elements */}
-      <motion.div
-        className="absolute top-20 right-20 w-32 h-32 opacity-10"
-        animate={{ 
-          rotate: [0, 360],
-          scale: [1, 1.1, 1]
-        }}
-        transition={{ 
-          duration: 20, 
-          repeat: Infinity,
-          ease: "linear"
-        }}
-      >
-        <div 
-          className="w-full h-full rounded-full"
-          style={{ 
-            background: `radial-gradient(circle, ${HORIZON_COLORS.gold500} 0%, transparent 70%)`
-          }}
-        />
-      </motion.div>
-
-      <motion.div
-        className="absolute bottom-20 left-20 w-24 h-24 opacity-10"
-        animate={{ 
-          rotate: [360, 0],
-          scale: [1, 1.2, 1]
-        }}
-        transition={{ 
-          duration: 15, 
-          repeat: Infinity,
-          ease: "linear"
-        }}
-      >
-        <div 
-          className="w-full h-full rounded-full"
-          style={{ 
-            background: `radial-gradient(circle, ${HORIZON_COLORS.navy700} 0%, transparent 70%)`
-          }}
-        />
-      </motion.div>
-
-      <div className="max-w-7xl mx-auto">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
-          
-          {/* Links: Tekst kolom */}
+      <div className="relative z-10 mx-auto max-w-7xl">
+        <div className="grid items-start gap-16 lg:grid-cols-2">
+          {/* LINKS */}
           <motion.div
-            initial={{ opacity: 0, x: -50 }}
+            initial={{ opacity: 0, x: -24 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.7 }}
             className="space-y-8"
           >
-            
-            {/* Badge */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="inline-flex items-center gap-3 px-4 py-2 rounded-full"
-              style={{
-                background: `linear-gradient(135deg, ${HORIZON_COLORS.navy800}15, ${HORIZON_COLORS.navy700}10)`,
-                border: `1px solid ${HORIZON_COLORS.navy700}30`
-              }}
-            >
-              <Building2 
-                className="w-4 h-4"
-                style={{ color: HORIZON_COLORS.gold500 }}
-              />
-              <span 
-                className="text-sm font-bold tracking-wide uppercase"
-                style={{ 
-                  color: HORIZON_COLORS.navy800,
-                  fontFamily: "Kanit, sans-serif"
-                }}
-              >
-                Totaalbouw van A tot Z
-              </span>
-            </motion.div>
+            {leftContent ? (
+              leftContent
+            ) : (
+              <>
+                {/* Badge */}
+                {eyebrow && (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: 0.2 }}
+                    className="inline-flex items-center gap-2 rounded-full border border-orange-200 bg-white/90 px-4 py-2 text-sm font-medium text-gray-700 backdrop-blur-sm shadow-sm"
+                  >
+                    <span className="inline-block h-2 w-2 rounded-full bg-gradient-to-r from-orange-500 to-orange-600 animate-pulse" />
+                    {eyebrow}
+                  </motion.div>
+                )}
 
-            {/* Main title */}
-            <motion.h2
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-              className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight"
-              style={{ 
-                color: HORIZON_COLORS.ink,
-                fontFamily: "Kanit, sans-serif"
-              }}
-            >
-              Bouwen aan{' '}
-              <span 
-                className="relative"
-                style={{ color: HORIZON_COLORS.gold500 }}
-              >
-                uw dromen
-                <motion.div
-                  className="absolute -bottom-2 left-0 h-1 rounded-full"
-                  style={{ background: `linear-gradient(90deg, ${HORIZON_COLORS.gold500}, ${HORIZON_COLORS.gold400})` }}
-                  initial={{ width: 0 }}
-                  whileInView={{ width: '100%' }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 1, delay: 1 }}
-                />
-              </span>
-            </motion.h2>
+                {/* Title */}
+                <h1
+                  id="bouw-intro-title"
+                  className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-tight"
+                  style={{ color: COLORS.gray900 }}
+                >
+                  {title}
+                </h1>
 
-            {/* Description */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.5 }}
-              className="space-y-6 text-lg leading-relaxed"
-              style={{ color: HORIZON_COLORS.gray600 }}
-            >
-              <p>
-                Wij zijn uw betrouwbare partner voor alle bouwwerkzaamheden, van nieuwbouw tot renovaties. 
-                Met jarenlange ervaring in de bouwsector realiseren wij projecten die perfect aansluiten bij 
-                uw wensen en budget. Onze ervaren vakmannen zorgen voor kwaliteit die generaties meegaat.
-              </p>
-              
-              <p>
-                Van de eerste schets tot de sleuteloverdracht begeleiden wij u door het hele bouwproces 
-                met persoonlijke aandacht en transparante communicatie. Duurzaamheid en vakmanschap 
-                staan centraal in alles wat wij doen.
-              </p>
-            </motion.div>
+                {/* Paragraphs */}
+                {paragraphs.length > 0 && (
+                  <div className="space-y-4 max-w-xl">
+                    {paragraphs.map((p, i) => (
+                      <p key={i} className="text-lg md:text-xl leading-relaxed" style={{ color: COLORS.gray600 }}>
+                        {p}
+                      </p>
+                    ))}
+                  </div>
+                )}
 
-            {/* CTA Button */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.7 }}
-            >
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.98 }}
-                className="group flex items-center gap-3 px-8 py-4 rounded-xl font-bold text-lg tracking-wide transition-all duration-300 hover:shadow-lg"
-                style={{
-                  background: `linear-gradient(135deg, ${HORIZON_COLORS.gold500} 0%, ${HORIZON_COLORS.gold400} 100%)`,
-                  color: HORIZON_COLORS.navy800,
-                  fontFamily: "Kanit, sans-serif",
-                  boxShadow: `0 4px 12px rgba(253, 197, 0, 0.3)`
-                }}
-              >
-                Vraag offerte aan
-                <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
-              </motion.button>
-            </motion.div>
+                {/* CTA Button */}
+                {cta && (
+                  <motion.a
+                    href={cta.href}
+                    onClick={cta.onClick}
+                    whileHover={reduce ? undefined : { scale: 1.05, y: -2 }}
+                    whileTap={{ scale: 0.97 }}
+                    transition={{ duration: 0.2 }}
+                    className="group inline-flex items-center gap-3 rounded-xl px-8 py-4 font-semibold text-white shadow-xl hover:shadow-2xl transition-all duration-300"
+                    style={{
+                      background: `linear-gradient(135deg, ${COLORS.orange600}, ${COLORS.orange500})`,
+                    }}
+                  >
+                    {cta.label}
+                    <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                  </motion.a>
+                )}
+              </>
+            )}
           </motion.div>
 
-          {/* Rechts: Visuele kolom */}
+          {/* RECHTS */}
           <motion.div
-            initial={{ opacity: 0, x: 50 }}
+            initial={{ opacity: 0, x: 24 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="space-y-8"
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.7 }}
+            className="space-y-6"
           >
-            
-            {/* Expertise Cards */}
-            <div className="space-y-4">
-              <motion.h3
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 0.4 }}
-                className="text-2xl font-bold mb-6 text-center"
-                style={{ 
-                  color: HORIZON_COLORS.ink,
-                  fontFamily: "Kanit, sans-serif"
-                }}
-              >
-                Onze expertise
-              </motion.h3>
-
-              {expertiseItems.map((item, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: 0.5 + index * 0.1 }}
-                  onMouseEnter={() => setHoveredExpertise(index)}
-                  onMouseLeave={() => setHoveredExpertise(null)}
-                  className="group relative p-6 rounded-2xl backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:shadow-lg cursor-pointer overflow-hidden"
-                  style={{
-                    background: `linear-gradient(135deg, ${HORIZON_COLORS.white} 0%, ${HORIZON_COLORS.gray50} 100%)`,
-                    border: `1px solid ${hoveredExpertise === index ? HORIZON_COLORS.gold500 : HORIZON_COLORS.gray200}`,
-                    boxShadow: hoveredExpertise === index 
-                      ? `0 8px 24px rgba(253, 197, 0, 0.2)` 
-                      : `0 2px 4px rgba(51, 51, 51, 0.06)`
-                  }}
-                >
-                  {/* Hover glow effect */}
-                  <div 
-                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                    style={{
-                      background: `radial-gradient(circle at 50% 0%, ${HORIZON_COLORS.gold500}10, transparent 70%)`
-                    }}
-                  />
-
-                  <div className="relative flex items-start gap-4">
-                    <motion.div
-                      animate={hoveredExpertise === index ? { scale: 1.1, rotate: 5 } : { scale: 1, rotate: 0 }}
-                      className="flex-shrink-0 p-3 rounded-xl"
-                      style={{
-                        background: hoveredExpertise === index 
-                          ? `linear-gradient(135deg, ${HORIZON_COLORS.gold500} 0%, ${HORIZON_COLORS.gold400} 100%)`
-                          : `linear-gradient(135deg, ${HORIZON_COLORS.navy800} 0%, ${HORIZON_COLORS.navy700} 100%)`,
-                        color: hoveredExpertise === index ? HORIZON_COLORS.navy800 : HORIZON_COLORS.gold500
-                      }}
-                    >
-                      {item.icon}
-                    </motion.div>
+            {/* Als expertiseItems gegeven zijn, toon die als cards */}
+            {expertiseItems ? (
+              <>
+                <h3 className="text-2xl font-bold mb-6" style={{ color: COLORS.gray900 }}>
+                  Onze expertise
+                </h3>
+                <div className="space-y-4">
+                  {expertiseItems.map((item, index) => {
+                    const Icon = item.icon;
+                    const itemColor = item.color || COLORS.blue600;
                     
-                    <div className="flex-1">
-                      <h4 
-                        className="font-bold mb-2 transition-colors duration-300"
-                        style={{ 
-                          color: hoveredExpertise === index ? HORIZON_COLORS.navy800 : HORIZON_COLORS.ink,
-                          fontFamily: "Kanit, sans-serif"
-                        }}
+                    return (
+                      <motion.div
+                        key={index}
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: index * 0.1, duration: 0.5 }}
+                        whileHover={reduce ? undefined : { scale: 1.02, x: 4 }}
+                        className="group relative bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100"
                       >
-                        {item.title}
-                      </h4>
-                      <p 
-                        className="text-sm leading-relaxed"
-                        style={{ color: HORIZON_COLORS.gray600 }}
-                      >
-                        {item.description}
-                      </p>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
+                        <div className="flex items-start gap-4">
+                          <div 
+                            className="flex-shrink-0 rounded-xl p-3 shadow-sm"
+                            style={{ backgroundColor: `${itemColor}15` }}
+                          >
+                            <Icon className="h-6 w-6" style={{ color: itemColor }} />
+                          </div>
+                          
+                          <div className="flex-1 space-y-2">
+                            <h4 className="font-semibold text-lg" style={{ color: COLORS.gray900 }}>
+                              {item.title}
+                            </h4>
+                            <p className="text-sm leading-relaxed" style={{ color: COLORS.gray600 }}>
+                              {item.description}
+                            </p>
+                          </div>
+                        </div>
 
-            {/* Statistics */}
-            <div className="grid grid-cols-2 gap-6">
-              {stats.map((stat, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: 0.8 + index * 0.1 }}
-                  onMouseEnter={() => setHoveredStat(index)}
-                  onMouseLeave={() => setHoveredStat(null)}
-                  className="group relative p-8 rounded-2xl text-center cursor-pointer transition-all duration-300 overflow-hidden"
-                  style={{
-                    background: `linear-gradient(135deg, ${HORIZON_COLORS.navy800} 0%, ${HORIZON_COLORS.navy700} 100%)`,
-                    boxShadow: `
-                      0 8px 24px rgba(0, 41, 107, 0.3),
-                      0 4px 8px rgba(0, 41, 107, 0.2)
-                    `,
-                    transform: hoveredStat === index ? 'scale(1.05) translateY(-8px)' : 'scale(1) translateY(0px)'
-                  }}
-                >
-                  {/* Animated background */}
-                  <motion.div
-                    className="absolute inset-0"
-                    style={{
-                      background: `radial-gradient(circle at 50% 50%, ${HORIZON_COLORS.gold500}20, transparent 70%)`
-                    }}
-                    animate={hoveredStat === index ? { scale: 1.5, opacity: 1 } : { scale: 0.5, opacity: 0 }}
-                    transition={{ duration: 0.3 }}
-                  />
-                  
-                  <div className="relative z-10">
-                    <motion.div
-                      animate={hoveredStat === index ? { scale: 1.1 } : { scale: 1 }}
-                      style={{ color: HORIZON_COLORS.gold500 }}
-                      className="mb-3 flex justify-center"
-                    >
-                      {stat.icon}
-                    </motion.div>
-                    
-                    <motion.div
-                      animate={hoveredStat === index ? { scale: 1.1 } : { scale: 1 }}
-                      className="text-4xl font-black mb-2"
-                      style={{ 
-                        color: HORIZON_COLORS.white,
-                        fontFamily: "Kanit, sans-serif"
-                      }}
-                    >
-                      {stat.number}
-                    </motion.div>
-                    
-                    <div 
-                      className="text-sm font-bold uppercase tracking-wide opacity-90"
-                      style={{ color: HORIZON_COLORS.white }}
-                    >
-                      {stat.label}
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
+                        {/* Hover effect */}
+                        <div 
+                          className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+                          style={{ 
+                            background: `linear-gradient(135deg, ${itemColor}05, transparent)`,
+                          }}
+                        />
+                      </motion.div>
+                    );
+                  })}
+                </div>
+              </>
+            ) : (
+              /* Anders gewoon rightContent tonen */
+              rightContent
+            )}
           </motion.div>
         </div>
       </div>
+
+      {/* Contact info floating badge */}
+      {contactBadge && contactBadge.show !== false && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1, duration: 0.5 }}
+          className="fixed bottom-8 right-8 bg-white rounded-2xl shadow-2xl p-4 border border-gray-200 hidden lg:block z-50"
+        >
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-600 to-blue-700 flex items-center justify-center">
+              <span className="text-white text-xl">📞</span>
+            </div>
+            <div>
+              <div className="text-xs text-gray-500">{contactBadge.label}</div>
+              <a 
+                href={`tel:${contactBadge.phone.replace(/\s/g, '')}`} 
+                className="font-semibold text-blue-600 hover:text-blue-700"
+              >
+                {contactBadge.phone}
+              </a>
+            </div>
+          </div>
+        </motion.div>
+      )}
     </section>
   );
-};
-
-export default BouwIntroSectie;
+}

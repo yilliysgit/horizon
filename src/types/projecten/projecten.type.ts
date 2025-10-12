@@ -9,6 +9,7 @@ export interface CaseStudy {
   year: string
   role: string
   industry: string
+  category?: string
   status: 'afgerond' | 'lopend' | 'concept'
   duration: string
   heroImage: string

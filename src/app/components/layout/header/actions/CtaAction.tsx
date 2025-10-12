@@ -5,13 +5,16 @@ const CtaAction = () => {
   return (
     <button
       type="button"
-      className="inline-flex items-center rounded-lg bg-brand-600 px-5 py-2.5 text-white font-semibold text-sm hover:bg-brand-800 transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:ring-offset-2"
+      className="inline-flex items-center rounded-lg bg-brand-600 px-5 py-2.5 text-gray-900 font-semibold text-sm hover:bg-brand-800 transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:ring-offset-2"
       onClick={() => {
         // 👉 hier kun je evt. router.push('/offerte') doen
         console.log('Offerte aanvragen clicked');
       }}
     >
-      <span>Offerte aanvragen</span>
+
+      
+      <span>
+        Offerte aanvragen</span>
       
       {/* Optional arrow icon */}
       <svg 

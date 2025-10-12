@@ -1,8 +1,32 @@
+"use client";
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight, ArrowRight, Info } from 'lucide-react';
 
-// TypeScript interfaces
+/*
+  HorizonServicesSlider — Consistent Blue + Yellow
+  - Grotere tekst voor bullets (text-base md:text-lg)
+  - Blue (#0066cc) + Yellow (#f59e0b)
+  - Lichtere font-weights (500-600)
+  - SEO-optimized content
+*/
+
+const COLORS = {
+  blue700: '#0066cc',
+  blue600: '#1a73e8',
+  blue500: '#3182ce',
+  yellow600: '#f59e0b',
+  yellow500: '#fbbf24',
+  gray900: '#111827',
+  gray700: '#374151',
+  gray600: '#4b5563',
+  gray300: '#d1d5db',
+  gray200: '#e5e7eb',
+  gray100: '#f3f4f6',
+  gray50: '#f9fafb',
+  white: '#ffffff',
+};
+
 interface Service {
   id: string;
   title: string;
@@ -13,6 +37,7 @@ interface Service {
   microcopy: string;
   primaryButton: string;
   secondaryButton: string;
+  badge: string;
 }
 
 const HorizonServicesSlider: React.FC = () => {
@@ -26,109 +51,52 @@ const HorizonServicesSlider: React.FC = () => {
       id: 'totaalrenovaties',
       title: 'Totaalrenovaties',
       subtitle: 'Volledige woningtransformatie van A tot Z',
-      description: 'Van concept tot sleutelklaar: wij transformeren uw woning volledig volgens uw wensen.',
+      description: 'Van concept tot sleutelklaar: complete renovaties in Amsterdam met eigen vakteam en transparante planning.',
       image: 'https://images.unsplash.com/photo-1581858726788-75bc0f6a952d?w=800&q=80&auto=format&fit=crop',
       features: [
         'Complete renovaties',
         'Op- en aanbouwen', 
         'Verbouwingen op maat',
-        'Renovatieadvies & ontwerp',
-        'Herbestemmingen (bv. zolder → slaapkamer)',
-        'Projectcoördinatie'
+        'Renovatieadvies & ontwerp'
       ],
       microcopy: 'Gemiddelde projectduur: 8-16 weken',
       primaryButton: 'Plan renovatie',
-      secondaryButton: 'Meer informatie'
+      secondaryButton: 'Meer info',
+      badge: '⭐ Meest populair'
     },
     {
       id: 'ruwbouw',
       title: 'Ruwbouw',
       subtitle: 'Stevige basis en dragende constructies',
-      description: 'Professionele ruwbouw met kwaliteit en precisie voor een solide fundering van uw project.',
+      description: 'Professionele ruwbouw met VCA-gecertificeerd team. Fundaties, metselwerk en draagconstructies vakkundig uitgevoerd.',
       image: 'https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=800&q=80&auto=format&fit=crop',
       features: [
         'Funderingen',
         'Dragende constructies',
         'Metselwerk',
-        'Ruwbouw timmerwerk',
-        'Betonwerken',
-        'Kelderbouw'
+        'Betonwerken'
       ],
       microcopy: 'Specialist in dragende constructies',
       primaryButton: 'Offerte aanvragen',
-      secondaryButton: 'Meer informatie'
+      secondaryButton: 'Meer info',
+      badge: '🏗️ Vakmanschap'
     },
     {
       id: 'dakwerken',
       title: 'Dakwerken',
       subtitle: 'Nieuwe daken en renovaties',
-      description: 'Complete dakoplossingen: van nieuwe daken tot renovaties en isolatie voor optimale bescherming.',
+      description: 'Complete dakoplossingen in Amsterdam: nieuwe daken, renovaties en isolatie voor optimale bescherming van uw woning.',
       image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80&auto=format&fit=crop',
       features: [
         'Nieuwe daken',
         'Dakrenovaties',
         'Dakisolatie',
-        'Dakramen & lichtkoepels',
-        'Zink- en koperwerk',
-        'Dakgoten & regenwaterafvoer'
+        'Zink- en koperwerk'
       ],
       microcopy: '25+ jaar dakwerkervaring',
       primaryButton: 'Dakinspectie',
-      secondaryButton: 'Meer informatie'
-    },
-    {
-      id: 'afwerking',
-      title: 'Afwerking',
-      subtitle: 'Perfecte finishing van binnen en buiten',
-      description: 'Vakkundige afwerking die uw project compleet maakt met oog voor detail en kwaliteit.',
-      image: 'https://images.unsplash.com/photo-1562259949-e8e7689d7828?w=800&q=80&auto=format&fit=crop',
-      features: [
-        'Afbouw timmerwerk',
-        'Wanden & plafonds',
-        'Stuc- en pleisterwerk',
-        'Vloeren & tegelwerk',
-        'Schilder- en lakwerk',
-        'Binnen- & buitendeuren'
-      ],
-      microcopy: 'Tot in de puntjes afgewerkt',
-      primaryButton: 'Bekijk voorbeelden',
-      secondaryButton: 'Meer informatie'
-    },
-    {
-      id: 'interieur',
-      title: 'Interieur',
-      subtitle: 'Maatwerk interieurdoplossingen',
-      description: 'Van keukens tot badkamers: complete interieurdoplossingen op maat van uw lifestyle.',
-      image: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&q=80&auto=format&fit=crop',
-      features: [
-        'Keukens',
-        'Badkamers',
-        'Toiletten',
-        'Inbouwkasten & maatwerkmeubilair',
-        'Trappen & leuningen',
-        'Interieurbekleding (bv. lambrisering)'
-      ],
-      microcopy: 'Persoonlijke stylingadvies inbegrepen',
-      primaryButton: 'Design sessie',
-      secondaryButton: 'Meer informatie'
-    },
-    {
-      id: 'installaties',
-      title: 'Installaties',
-      subtitle: 'Moderne technieken en duurzame energie',
-      description: 'Complete technische installaties voor comfort, veiligheid en energiebesparingen.',
-      image: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=800&q=80&auto=format&fit=crop',
-      features: [
-        'Elektrotechniek',
-        'Loodgieterswerk',
-        'Verwarming & ventilatie',
-        'Airco & warmtepompen',
-        'Domotica & smart home',
-        'Zonnepanelen & duurzame energie'
-      ],
-      microcopy: 'Gecertificeerde installateurs',
-      primaryButton: 'Technisch advies',
-      secondaryButton: 'Meer informatie'
+      secondaryButton: 'Meer info',
+      badge: '🏠 Duurzaam'
     }
   ];
 
@@ -144,7 +112,6 @@ const HorizonServicesSlider: React.FC = () => {
     setCurrentIndex(index);
   };
 
-  // Touch handlers
   const onTouchStart = (e: React.TouchEvent) => {
     setTouchEnd(null);
     setTouchStart(e.targetTouches[0].clientX);
@@ -156,25 +123,13 @@ const HorizonServicesSlider: React.FC = () => {
 
   const onTouchEnd = () => {
     if (!touchStart || !touchEnd) return;
-    
     const distance = touchStart - touchEnd;
-    const isLeftSwipe = distance > 50;
-    const isRightSwipe = distance < -50;
-
-    if (isLeftSwipe) {
-      nextSlide();
-    }
-    if (isRightSwipe) {
-      prevSlide();
-    }
+    if (distance > 50) nextSlide();
+    if (distance < -50) prevSlide();
   };
 
-  // Auto-advance slider (optional)
   useEffect(() => {
-    const interval = setInterval(() => {
-      nextSlide();
-    }, 8000); // Change slide every 8 seconds
-
+    const interval = setInterval(nextSlide, 8000);
     return () => clearInterval(interval);
   }, []);
 
@@ -182,72 +137,62 @@ const HorizonServicesSlider: React.FC = () => {
 
   return (
     <section 
-      className="w-full py-16 px-4 md:px-8"
-      style={{ backgroundColor: 'var(--gray-50, #f9fafb)' }}
+      className="w-full py-16 md:py-20 px-4 md:px-8"
+      style={{ backgroundColor: COLORS.white }}
+      aria-labelledby="services-slider-title"
     >
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-16">
+        <div className="text-center mb-12 md:mb-16">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-semibold uppercase tracking-wider mb-6"
+            transition={{ duration: 0.5 }}
+            className="inline-flex items-center gap-2 rounded-full border px-4 py-2 text-xs font-medium uppercase tracking-wider mb-6 backdrop-blur-sm"
             style={{
-              backgroundColor: 'var(--white, #ffffff)',
-              borderColor: 'var(--primary-blue, #0079C0)',
-              color: 'var(--primary-blue, #0079C0)',
-              borderWidth: '1px'
+              backgroundColor: COLORS.white,
+              borderColor: COLORS.gray200,
+              color: COLORS.blue700,
             }}
           >
             <div 
-              className="h-1.5 w-1.5 rounded-full" 
-              style={{ backgroundColor: 'var(--primary-blue, #0079C0)' }}
+              className="h-2 w-2 rounded-full" 
+              style={{ backgroundColor: COLORS.yellow600 }}
             />
-            ONZE DIENSTEN
+            Onze Diensten
           </motion.div>
           
           <motion.h2 
-            className="text-4xl md:text-6xl font-bold mb-4"
-            style={{ color: 'var(--gray-900, #111827)' }}
-            initial={{ opacity: 0, y: 30 }}
+            id="services-slider-title"
+            className="text-3xl md:text-4xl lg:text-5xl font-semibold mb-5 tracking-tight leading-tight"
+            style={{ color: COLORS.gray900 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
           >
-            Totaaloplossingen voor
-            <span 
-              className="block"
-              style={{ 
-                background: 'var(--primary-gradient, linear-gradient(90deg, #0079C0 0%, #55b8ff 100%))',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text'
-              }}
-            >
-              uw bouwproject
-            </span>
+            Totaaloplossingen voor{' '}
+            <span style={{ color: COLORS.blue700 }}>uw bouwproject</span>
           </motion.h2>
           
           <motion.p 
-            className="text-xl max-w-3xl mx-auto"
-            style={{ color: 'var(--gray-600, #4b5563)' }}
-            initial={{ opacity: 0, y: 30 }}
+            className="text-base md:text-lg max-w-3xl mx-auto leading-relaxed"
+            style={{ color: COLORS.gray600 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.4 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
           >
-            Van ruwbouw tot sleutelklare oplevering - ontdek onze volledige dienstverlening
+            Van ruwbouw tot sleutelklare oplevering in Amsterdam — ontdek onze complete dienstverlening
           </motion.p>
         </div>
 
         {/* Slider Container */}
         <div className="relative">
-          {/* Main Slider */}
           <div 
             ref={sliderRef}
-            className="relative overflow-hidden rounded-3xl"
+            className="relative overflow-hidden rounded-2xl shadow-2xl"
             onTouchStart={onTouchStart}
             onTouchMove={onTouchMove}
             onTouchEnd={onTouchEnd}
@@ -261,28 +206,43 @@ const HorizonServicesSlider: React.FC = () => {
                 transition={{ duration: 0.5, ease: "easeInOut" }}
                 className="w-full"
               >
-                <div className="grid md:grid-cols-2 min-h-[600px]">
+                <div className="grid md:grid-cols-2 min-h-[500px] md:min-h-[600px]">
                   {/* Image Section */}
                   <div className="relative overflow-hidden">
                     <motion.img
                       src={currentService.image}
-                      alt={currentService.title}
+                      alt={`${currentService.title} - Horizon Totaalbouw Amsterdam`}
                       className="w-full h-full object-cover"
                       whileHover={{ scale: 1.05 }}
-                      transition={{ duration: 0.3 }}
+                      transition={{ duration: 0.4 }}
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
                     
-                    {/* Floating Category Badge */}
+                    {/* Badge - Yellow accent */}
                     <motion.div 
-                      className="absolute top-6 left-6 px-4 py-2 rounded-full backdrop-blur-md border"
+                      className="absolute top-6 left-6 px-4 py-2 rounded-xl backdrop-blur-md shadow-lg"
                       style={{
-                        backgroundColor: 'var(--white, #ffffff)',
-                        borderColor: 'var(--primary-blue, #0079C0)',
-                        color: 'var(--primary-blue, #0079C0)',
-                        borderOpacity: 0.3
+                        background: `linear-gradient(135deg, ${COLORS.yellow600}, ${COLORS.yellow500})`,
+                        color: COLORS.white,
                       }}
                       initial={{ opacity: 0, y: -20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.3 }}
+                    >
+                      <span className="text-sm font-medium">
+                        {currentService.badge}
+                      </span>
+                    </motion.div>
+
+                    {/* Counter */}
+                    <motion.div 
+                      className="absolute bottom-6 left-6 px-4 py-2 rounded-xl backdrop-blur-md border"
+                      style={{
+                        backgroundColor: `${COLORS.white}dd`,
+                        borderColor: COLORS.gray200,
+                        color: COLORS.gray700,
+                      }}
+                      initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.3 }}
                     >
@@ -295,7 +255,7 @@ const HorizonServicesSlider: React.FC = () => {
                   {/* Content Section */}
                   <div 
                     className="p-8 md:p-12 flex flex-col justify-center"
-                    style={{ backgroundColor: 'var(--white, #ffffff)' }}
+                    style={{ backgroundColor: COLORS.white }}
                   >
                     <motion.div
                       initial={{ opacity: 0, y: 20 }}
@@ -303,35 +263,35 @@ const HorizonServicesSlider: React.FC = () => {
                       transition={{ delay: 0.2 }}
                     >
                       <h3 
-                        className="text-3xl md:text-4xl font-bold mb-2"
-                        style={{ color: 'var(--gray-900, #111827)' }}
+                        className="text-2xl md:text-3xl lg:text-4xl font-semibold mb-3"
+                        style={{ color: COLORS.gray900 }}
                       >
                         {currentService.title}
                       </h3>
                       
                       <p 
-                        className="text-lg mb-4"
-                        style={{ color: 'var(--primary-blue, #0079C0)' }}
+                        className="text-base md:text-lg mb-4 font-medium"
+                        style={{ color: COLORS.blue700 }}
                       >
                         {currentService.subtitle}
                       </p>
                       
                       <p 
-                        className="text-lg mb-6 leading-relaxed"
-                        style={{ color: 'var(--gray-600, #4b5563)' }}
+                        className="text-base md:text-lg mb-8 leading-relaxed"
+                        style={{ color: COLORS.gray600 }}
                       >
                         {currentService.description}
                       </p>
 
-                      {/* Features List */}
+                      {/* Features List - GROTERE TEKST */}
                       <div className="mb-8">
                         <h4 
-                          className="text-sm font-semibold mb-4 uppercase tracking-wider"
-                          style={{ color: 'var(--gray-700, #374151)' }}
+                          className="text-sm font-medium mb-4 uppercase tracking-wider"
+                          style={{ color: COLORS.gray700 }}
                         >
                           Wat wij doen:
                         </h4>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                           {currentService.features.map((feature, index) => (
                             <motion.div
                               key={feature}
@@ -342,11 +302,11 @@ const HorizonServicesSlider: React.FC = () => {
                             >
                               <div 
                                 className="w-2 h-2 rounded-full mr-3 flex-shrink-0"
-                                style={{ backgroundColor: 'var(--primary-blue, #0079C0)' }}
+                                style={{ backgroundColor: COLORS.yellow600 }}
                               />
                               <span 
-                                className="text-sm"
-                                style={{ color: 'var(--gray-700, #374151)' }}
+                                className="text-base md:text-lg font-normal"
+                                style={{ color: COLORS.gray700 }}
                               >
                                 {feature}
                               </span>
@@ -358,32 +318,32 @@ const HorizonServicesSlider: React.FC = () => {
                       {/* Buttons */}
                       <div className="flex flex-col sm:flex-row gap-4 mb-6">
                         <motion.button
-                          className="px-6 py-3 rounded-xl font-semibold text-white flex items-center justify-center gap-2 shadow-lg"
+                          className="px-6 py-3.5 rounded-xl font-medium text-white flex items-center justify-center gap-2 shadow-lg"
                           style={{ 
-                            background: 'var(--primary-gradient, linear-gradient(90deg, #0079C0 0%, #55b8ff 100%))'
+                            background: `linear-gradient(135deg, ${COLORS.blue700}, ${COLORS.blue600})`
                           }}
-                          whileHover={{ scale: 1.02, y: -2 }}
+                          whileHover={{ scale: 1.05, y: -2 }}
                           whileTap={{ scale: 0.98 }}
                         >
                           {currentService.primaryButton}
-                          <ArrowRight className="w-4 h-4" />
+                          <ArrowRight className="w-5 h-5" />
                         </motion.button>
                         
                         <motion.button
-                          className="px-6 py-3 rounded-xl font-semibold border-2 flex items-center justify-center gap-2"
+                          className="px-6 py-3.5 rounded-xl font-medium border-2 flex items-center justify-center gap-2"
                           style={{
-                            backgroundColor: 'var(--white, #ffffff)',
-                            borderColor: 'var(--gray-300, #d1d5db)',
-                            color: 'var(--gray-700, #374151)'
+                            backgroundColor: COLORS.white,
+                            borderColor: COLORS.gray300,
+                            color: COLORS.gray700
                           }}
                           whileHover={{ 
-                            scale: 1.02, 
+                            scale: 1.05, 
                             y: -2,
-                            borderColor: 'var(--primary-blue, #0079C0)'
+                            borderColor: COLORS.blue700
                           }}
                           whileTap={{ scale: 0.98 }}
                         >
-                          <Info className="w-4 h-4" />
+                          <Info className="w-5 h-5" />
                           {currentService.secondaryButton}
                         </motion.button>
                       </div>
@@ -391,7 +351,7 @@ const HorizonServicesSlider: React.FC = () => {
                       {/* Microcopy */}
                       <motion.p 
                         className="text-sm italic"
-                        style={{ color: 'var(--gray-500, #6b7280)' }}
+                        style={{ color: COLORS.gray600 }}
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ delay: 0.5 }}
@@ -410,10 +370,11 @@ const HorizonServicesSlider: React.FC = () => {
             onClick={prevSlide}
             className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full backdrop-blur-md border shadow-lg flex items-center justify-center z-10 transition-all duration-200 hover:scale-110"
             style={{
-              backgroundColor: 'var(--white, #ffffff)',
-              borderColor: 'var(--gray-200, #e5e7eb)',
-              color: 'var(--gray-700, #374151)'
+              backgroundColor: COLORS.white,
+              borderColor: COLORS.gray200,
+              color: COLORS.gray700
             }}
+            aria-label="Vorige dienst"
           >
             <ChevronLeft className="w-6 h-6" />
           </button>
@@ -422,10 +383,11 @@ const HorizonServicesSlider: React.FC = () => {
             onClick={nextSlide}
             className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full backdrop-blur-md border shadow-lg flex items-center justify-center z-10 transition-all duration-200 hover:scale-110"
             style={{
-              backgroundColor: 'var(--white, #ffffff)',
-              borderColor: 'var(--gray-200, #e5e7eb)',
-              color: 'var(--gray-700, #374151)'
+              backgroundColor: COLORS.white,
+              borderColor: COLORS.gray200,
+              color: COLORS.gray700
             }}
+            aria-label="Volgende dienst"
           >
             <ChevronRight className="w-6 h-6" />
           </button>
@@ -437,37 +399,37 @@ const HorizonServicesSlider: React.FC = () => {
             <button
               key={index}
               onClick={() => goToSlide(index)}
-              className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                index === currentIndex ? 'scale-125' : 'hover:scale-110'
+              className={`h-3 rounded-full transition-all duration-300 ${
+                index === currentIndex ? 'w-8 scale-125' : 'w-3 hover:scale-110'
               }`}
               style={{
                 backgroundColor: index === currentIndex 
-                  ? 'var(--primary-blue, #0079C0)' 
-                  : 'var(--gray-300, #d1d5db)'
+                  ? COLORS.blue700
+                  : COLORS.gray300
               }}
+              aria-label={`Ga naar slide ${index + 1}`}
             />
           ))}
         </div>
 
-        {/* Service Navigation Tabs (Desktop) */}
-        <div className="hidden lg:flex justify-center mt-12 gap-4 flex-wrap">
+        {/* Service Tabs (Desktop) */}
+        <div className="hidden lg:flex justify-center mt-12 gap-3 flex-wrap">
           {services.map((service, index) => (
             <button
               key={service.id}
               onClick={() => goToSlide(index)}
-              className={`px-4 py-2 rounded-lg font-medium transition-all duration-300 ${
-                index === currentIndex ? 'shadow-md' : ''
-              }`}
+              className="px-5 py-2.5 rounded-xl font-medium transition-all duration-300"
               style={{
                 backgroundColor: index === currentIndex 
-                  ? 'var(--primary-blue, #0079C0)' 
-                  : 'var(--white, #ffffff)',
+                  ? COLORS.blue700
+                  : COLORS.white,
                 color: index === currentIndex 
-                  ? 'white' 
-                  : 'var(--gray-700, #374151)',
-                border: `1px solid ${index === currentIndex 
-                  ? 'var(--primary-blue, #0079C0)' 
-                  : 'var(--gray-200, #e5e7eb)'}`
+                  ? COLORS.white
+                  : COLORS.gray700,
+                border: `2px solid ${index === currentIndex 
+                  ? COLORS.blue700
+                  : COLORS.gray200}`,
+                boxShadow: index === currentIndex ? '0 4px 12px rgba(0,102,204,0.15)' : 'none'
               }}
             >
               {service.title}
